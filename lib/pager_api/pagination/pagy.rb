@@ -15,6 +15,12 @@ module PagerApi
 
         pagination_headers(pagy) if PagerApi.include_pagination_headers?
 
+        if options[:data].present?
+          options[:data].each do |k, v|
+            headers[k.to_s] = v
+          end
+        end
+
         render options
       end
 
@@ -78,14 +84,20 @@ module PagerApi
       end
 
       def meta(pagy, options = {})
-        {
+        @meta = {
           pagination: {
             per_page: pagy.items,
             total_pages: pagy.pages,
             total_objects: pagy.count,
             links: pagination_links(pagy),
-          },
+          }
         }
+
+        if options[:data].present?
+          @meta[:data] = options[:data]
+        end
+
+        @meta
       end
     end
   end
