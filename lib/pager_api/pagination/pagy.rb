@@ -68,7 +68,12 @@ module PagerApi
         options[:page] = params[:page] || 1
         options[:items] = options.delete(:per_page) || params[:per_page] || ::Pagy::VARS[:items]
 
-        meta, collection = pagy(collection, options)
+        meta, collection =
+          if collection.is_a?(Array)
+            pagy_array(collection, options)
+          else
+            pagy(collection, options)
+          end
         [meta, collection]
       end
 
