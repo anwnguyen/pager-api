@@ -72,7 +72,7 @@ module PagerApi
 
       def paginate_collection(collection, options = {})
         options[:page] = params[:page] || 1
-        options[:items] = options.delete(:per_page) || params[:per_page] || ::Pagy::VARS[:items]
+        options[:items] = options.delete(:per_page) || params[:per_page] || ::Pagy::DEFAULT[:items]
 
         meta, collection =
           if collection.is_a?(Array)
